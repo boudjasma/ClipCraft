@@ -1,0 +1,24 @@
+{% extends 'craftapp/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div class="card-header rounded-0 bg-gradient" style="background-color:#370513;">
+        <div class="fs-1 text-light">
+            ClipCraft
+        </div>
+    </div>
+    <div class="container-fluid position-static">
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
