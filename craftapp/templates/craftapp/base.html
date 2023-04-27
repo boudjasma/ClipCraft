@@ -1,5 +1,6 @@
-{% load static %}
 {% load i18n %}
+{% load static %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,7 +8,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>{% block title %}{% translate "CraftApp" %}{% endblock %}</title>
+        <title>{% block title %}{% trans "CraftApp" %}{% endblock %}</title>
         
         {% block links_cdn %}
             <!-- Bootstrap 5 -->
@@ -27,7 +28,7 @@
         {% endblock %}
     </head>
     
-    <body class="bg-secondary">
+    <body style="background-color: #F0EAEB;">
         {% block content %}{% endblock %}
     </body>
     {% block modal %}
