@@ -1,2 +1,7 @@
 django
 django-admin
+
+# database
+psycopg2-binary
+postgresql postgresql-client
+postgresql-client-common

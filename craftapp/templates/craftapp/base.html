@@ -29,7 +29,20 @@
     </head>
     
     <body style="background-color: #F0EAEB;">
+      <nav>
+        <ul>
+          {% if user.is_authenticated %}
+            <li>Bonjour, {{ user.username }} !</li>
+            <li><a href="{% url 'logout' %}">Déconnexion</a></li>
+          {% else %}
+            <li><a href="{% url 'login' %}">Connexion</a></li>
+            <li><a href="{% url 'signup' %}">Inscription</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+      <main>
         {% block content %}{% endblock %}
+      </main>
     </body>
     {% block modal %}
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
