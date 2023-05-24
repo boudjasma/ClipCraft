@@ -2,76 +2,73 @@
 {% load i18n %}
 {% load static %}
 
+{% block header %}ClipCraft{% endblock %}
+{% block login %}  
+  {% if user.is_authenticated %}
+    <a  class="text-light" href="{% url 'logout' %}">{% trans "Logout" %}</a>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
-    <div class="card-header rounded-0 bg-gradient" style="background-color:#370513;">
-        <div class="fs-1 text-light">
-            ClipCraft
-        </div>
-    </div>
-    <div class="container-fluid m-sm-4 p-2">
-        <form method="POST" action="{% url 'home' %}">
-            {% csrf_token %}
-            <div class="row gx-5 m-1">
-                <div class="d-sm-flex justify-content-between">
-                    <div class="col-lg-6 col-md-12 p-sm-3">
-                        <div class="mb-3">
-                            <label for="title" class="form-label">{% trans "What title do you want for your video ?" %}</label>
-                            <input class="form-control" id="title" name="title" placeholder="{% trans 'Enter your title here' %}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="text" class="form-label">{% trans "Enter your text here" %}</label>
-                            <textarea class="form-control" id="text" name="text" rows="3"></textarea>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="d-flex justify-content-center">
-                            <div class="row team-container w-sm-50 p-3">
-                                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                                    <div class="carousel-inner">
-                                      <div class="carousel-item active">
-                                        <input type="radio" name="photo" value="1" id="photo1" class="d-none">
-                                        <label for="photo1">
-                                          <img src="{% static 'media/avatar1.png' %}" class="d-block" alt="Photo 1" height="300" length="500">
-                                        </label>
-                                      </div>
-                                      <div class="carousel-item">
-                                        <input type="radio" name="photo" value="2" id="photo2" class="d-none">
-                                        <label for="photo2">
-                                          <img src="{% static 'media/avatar2.png' %}" class="d-block" alt="Photo 2" height="300" length="500">
-                                        </label>
-                                      </div>
-                                      <div class="carousel-item">
-                                        <input type="radio" name="photo" value="3" id="photo3" class="d-none">
-                                        <label for="photo3">
-                                          <img src="{% static 'media/avatar3.png' %}" class="d-block" alt="Photo 3" height="300" length="500">
-                                        </label>
-                                      </div>
-                                      <div class="carousel-item">
-                                        <input type="radio" name="photo" value="4" id="photo4" class="d-none">
-                                        <label for="photo4">
-                                          <img src="{% static 'media/avatar4.png' %}" class="d-block" alt="Photo 4" height="300" length="500">
-                                        </label>
-                                      </div>
+  <div class="fs-2 card-title m-4">{% if user.is_authenticated %} {% trans "Welcome" %}, {{ user.username }} !{% endif %}</div>
+  <div class="container-fluid m-sm-4 p-2">
+      <form method="POST" action="{% url 'home' %}">
+          {% csrf_token %}
+          <div class="row gx-5 m-1">
+              <div class="d-sm-flex justify-content-between">
+                  <div class="col-lg-6 col-md-12 p-sm-3">
+                      <div class="mb-3">
+                          <label for="title" class="form-label">{% trans "What title do you want for your video ?" %}</label>
+                          <input class="form-control" id="title" name="title" placeholder="{% trans 'Enter your title here' %}">
+                      </div>
+                      <div class="mb-3">
+                          <label for="text" class="form-label">{% trans "Enter your text here" %}</label>
+                          <textarea class="form-control" id="text" name="text" rows="3"></textarea>
+                      </div>
+                  </div>
+                  <div class="col">
+                      <div class="d-flex justify-content-center">
+                          <div class="row team-container w-sm-50 p-3">
+                              <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                                  <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                      <input type="radio" name="photo" value="1" id="photo1" class="d-none">
+                                      <label for="photo1">
+                                        <img src="{% static 'assets/avatar1.png' %}" class="d-block" alt="Photo 1" height="300" length="500">
+                                      </label>
                                     </div>
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                      <span class="visually-hidden">Précédent</span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                      <span class="visually-hidden">Suivant</span>
-                                    </button>
+                                    <div class="carousel-item">
+                                      <input type="radio" name="photo" value="2" id="photo2" class="d-none">
+                                      <label for="photo2">
+                                        <img src="{% static 'assets/avatar2.png' %}" class="d-block" alt="Photo 2" height="300" length="500">
+                                      </label>
+                                    </div>
+                                    <div class="carousel-item">
+                                      <input type="radio" name="photo" value="3" id="photo3" class="d-none">
+                                      <label for="photo3">
+                                        <img src="{% static 'assets/avatar3.png' %}" class="d-block" alt="Photo 3" height="300" length="500">
+                                      </label>
+                                    </div>                       
                                   </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary w-sm-50">{% trans "generate my video" %}</button>
-                </div>               
-            </div>
-        </form>
-    </div>
+                                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Précédent</span>
+                                  </button>
+                                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Suivant</span>
+                                  </button>
+                                </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row">
+              <div class="d-flex justify-content-center">
+                  <button type="submit" class="btn w-sm-50 text-light" style="background-color: #370513;">{% trans "generate my video" %}</button>
+              </div>               
+          </div>
+      </form>
+  </div>
 {% endblock %}

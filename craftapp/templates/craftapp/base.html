@@ -28,18 +28,20 @@
         {% endblock %}
     </head>
     
-    <body style="background-color: #F0EAEB;">
-      <nav>
-        <ul>
-          {% if user.is_authenticated %}
-            <li>Bonjour, {{ user.username }} !</li>
-            <li><a href="{% url 'logout' %}">Déconnexion</a></li>
-          {% else %}
-            <li><a href="{% url 'login' %}">Connexion</a></li>
-            <li><a href="{% url 'signup' %}">Inscription</a></li>
-          {% endif %}
-        </ul>
-      </nav>
+    <body style="background-color: #F0EAEB;">        
+      <div class="card-header rounded-0 bg-gradient" style="background-color:#370513;">
+        <div class="d-flex justify-content-between">
+          <div class="fs-1 text-light">
+            {% block header %}
+            {% endblock %}
+          </div>
+          <div class="m-4">
+            {% block login %}{% endblock %}
+          </div>
+          
+        </div>
+          
+        </div>
       <main>
         {% block content %}{% endblock %}
       </main>

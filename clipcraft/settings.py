@@ -70,6 +70,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'clipcraft.wsgi.application'
+# AUTH_USER_MODEL = 'craftapp.Profile'
 
 
 # Database
@@ -78,7 +79,7 @@ WSGI_APPLICATION = 'clipcraft.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
 

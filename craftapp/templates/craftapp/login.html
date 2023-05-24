@@ -3,11 +3,18 @@
 {% load i18n %}
 {% load static %}
 
+{% block header %}ClipCraft{% endblock %}
+
 {% block content %}
-  <h2>Inscription</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">S'inscrire</button>
-  </form>
+<div class="container-fluid m-sm-4 p-2">
+    
+        <h2>Inscription - Connexion</h2>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-success">Connexion</button>
+          <button type="button" class="btn btn-success"><a href="{% url 'signup' %}" class="link-light text-decoration-none">S'inscrire</a></button>
+        </form>
+</div>
+ 
 {% endblock %}
