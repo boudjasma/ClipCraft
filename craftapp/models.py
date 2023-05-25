@@ -15,6 +15,7 @@ class Video(models.Model):
     video_file = models.FileField(upload_to='medias/videos/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
     evaluation = models.IntegerField(blank=True, null=True)
+    url = models.URLField()
 
     def __str__(self):
         return self.title

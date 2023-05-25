@@ -57,30 +57,21 @@ class HomeView(TemplateView):
         if request.method == 'POST':
             title = request.POST.get('title')
             text = request.POST.get('text')
-            selected_photo = str(request.POST.get('photo'))
-            print(title, text, selected_photo)
-            # traitement de données se fait ici
-            context = {'title': title, 'text': text, 'photo': selected_photo }
-            
-            # generate_video(text, selected_photo)
-
-            # return render(request, 'craftapp/result.html', context)
+            photo = str(request.POST.get('photo'))
+          
             data = {
                 'title': title,
                 'text': text,
-                'selected_photo': selected_photo
+                'photo': photo
             }
-
             print(data)
-            # Effectuez la requête POST vers votre API
+
             response = requests.post('http://localhost:5000/generate-video', data=data)
 
-            # Traitez la réponse de l'API si nécessaire
             api_response = response.json()
             print(api_response)
 
-            # Traitez les données et construisez le contexte
-            context = {'title': title, 'text': text, 'selected_photo': selected_photo }
+            context = {'title': title, 'text': text, 'photo': photo, 'video_path': api_response }
 
             # Renvoyez la réponse à la vue 'result.html'
             return render(request, 'craftapp/result.html', context)
