@@ -31,7 +31,7 @@
                           <div class="row team-container w-sm-50 p-3">
                               <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                                   <div class="carousel-inner">
-                                    <div class="carousel-item active">
+                                    <!-- <div class="carousel-item active">
                                       <input type="radio" name="photo" value="1" id="photo1" class="d-none">
                                       <label for="photo1">
                                         <img src="{% static 'assets/avatar1.png' %}" class="d-block" alt="Photo 1" height="300" length="500">
@@ -48,7 +48,20 @@
                                       <label for="photo3">
                                         <img src="{% static 'assets/avatar3.png' %}" class="d-block" alt="Photo 3" height="300" length="500">
                                       </label>
-                                    </div>                       
+                                    </div>                        -->
+                                    {% for avatar in avatars %}
+                                    {% with counter=forloop.counter|stringformat:"s" %}
+                                        {% with avatar_path='assets/avatar'|add:counter|add:".png" %}
+                                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                                <input type="radio" name="photo" value="{{ forloop.counter }}" id="photo{{ forloop.counter }}" class="d-none">
+                                                <label for="photo{{ forloop.counter }}">
+                                                    <img src="{% static avatar_path %}" class="d-block" alt="Photo {{ forloop.counter }}" height="300" length="500">
+                                                </label>
+                                            </div>
+                                        {% endwith %}
+                                    {% endwith %}
+                                {% endfor %}
+                                
                                   </div>
                                   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

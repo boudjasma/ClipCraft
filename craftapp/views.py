@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.shortcuts import redirect, render
 from django.views.generic import *
 from django.contrib.auth.models import User
@@ -53,6 +54,12 @@ class SignUpView(View):
 class HomeView(TemplateView):
     template_name = 'craftapp/home.html'
 
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["avatars"] = ["{% static 'assets/avatar"+str(i)+".png' %}" for i in range(1, 10)]
+        print(context["avatars"] )
+        return context
+
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
             title = request.POST.get('title')
@@ -75,3 +82,4 @@ class HomeView(TemplateView):
 
             # Renvoyez la réponse à la vue 'result.html'
             return render(request, 'craftapp/result.html', context)
+        
