@@ -10,17 +10,17 @@
 {% block header %}ClipCraft{% endblock %}
 
 {% block content %}
-<div class="container-fluid m-sm-4 p-2">
-
-  <h2 style="color: #111345;">Inscription - Connexion</h2>
+<div class="container text-center p-sm-4">
+  <div class="fs-2 p-2" style="color: #111345;">Inscription - Connexion</div>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn w-sm-50 text-light" style="background-color: #111345;">
       {% trans "Connect" %}
     </button>
-    <button type="button" class="btn w-sm-50 text-light" style="background-color: #111345;"><a href="{% url 'signup' %}"
-        class="link-light text-decoration-none">{% trans "Register" %}</a></button>
+    <button type="button" class="btn w-sm-50 text-light" style="background-color: #111345;">
+      <a href="{% url 'signup' %}" class="link-light text-decoration-none">{% trans "Register" %}</a>
+    </button>
   </form>
 </div>
 

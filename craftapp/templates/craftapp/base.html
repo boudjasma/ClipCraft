@@ -7,7 +7,7 @@
 <head>
   <!-- Required meta tags -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>{% block title %}{% trans "CraftApp" %}{% endblock %}</title>
 
@@ -35,7 +35,7 @@
 </head>
 
 <body>
-  <div class="card-header rounded-0" id="header">
+  <div class="card-header container-fluid rounded-0" id="header">
     <div class="d-flex justify-content-between">
       <div class="fs-1" id="title">
         <img src="{% static 'assets/logo.png' %}" class="rounded" alt="ClipCraftLogo" height="70" width="70" id="logo">
@@ -49,8 +49,12 @@
     </div>
 
   </div>
-  <main>
-    {% block content %}{% endblock %}
+  <main class="container p-sm-4">
+    <div class="card shadow-lg bg-body rounded">
+      <div class="card-sm-body">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
   </main>
 </body>
 {% block modal %}

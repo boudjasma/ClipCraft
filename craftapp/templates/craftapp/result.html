@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid m-sm-4 p-2">
+<div class="container-fluid m-sm-4 p-2" style="width: 50rem;">
     <div class="row gx-5 m-1">
         <h1>Results:</h1>
         <div class="d-sm-flex justify-content-evenly">
@@ -36,7 +36,8 @@
     </div>
     <div class="p-2 bd-highlight">
         <div class="d-flex justify-content-center">
-            <a href="{% static 'media/video.mp4' %}" download class="btn btn-info">{% trans "Download Video" %}</a>
+            <a href="{% static 'media/video.mp4' %}" download class="btn w-sm-50 text-light m-2"
+                style="background-color: #111345;">{% trans "Download Video" %}</a>
         </div>
     </div>
 </div>
