@@ -73,12 +73,12 @@ class HomeView(TemplateView):
             }
             print(data)
 
-            response = requests.post('http://localhost:5000/generate-video', data=data)
+            # response = requests.post('http://localhost:5000/generate-video', data=data)
 
-            api_response = response.json()
-            print(api_response)
+            # api_response = response.json()
+            # print(api_response)
 
-            context = {'title': title, 'text': text, 'photo': photo, 'video_path': api_response }
+            context = {'title': title, 'text': text, 'photo': photo, 'video_path': "" }
 
             # Renvoyez la réponse à la vue 'result.html'
             return render(request, 'craftapp/result.html', context)

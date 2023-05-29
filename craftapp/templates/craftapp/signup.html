@@ -2,17 +2,22 @@
 {% load i18n %}
 {% load static %}
 
-{% block header %}ClipCraft{% endblock %}
+{% block styles %}
+{{ block.super }}
+{% endblock %}
+
+
+{% block header %}<a href="{% url 'home' %}" class="link-light text-decoration-none">ClipCraft</a>{% endblock %}
 
 {% block content %}
 <div class="container-fluid m-sm-4 p-2">
- <h2>Inscription</h2>
+  <h2>Inscription</h2>
   <a href="{% url 'login' %}">Se connecter</a>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">S'inscrire</button>
+    <button type="submit" class="btn w-sm-50 text-light" style="background-color: #111345;">S'inscrire</button>
   </form>
 </div>
- 
+
 {% endblock %}
