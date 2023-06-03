@@ -11,12 +11,14 @@
 
 {% block content %}
 <div class="container-fluid m-sm-4 p-2">
-  <h2>Inscription</h2>
-  <a href="{% url 'login' %}">Se connecter</a>
+  <div class="d-flex flex-row bd-highlight mb-2">
+    <div class="fs-2 bd-highlight mx-2"><a href="{% url 'login' %}"><i class="bi bi-arrow-bar-left text-decoration-none link-dark"></i></a></div>
+    <div class="fs-2 bd-highlight">{% trans "Registration" %}</div>
+  </div>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn w-sm-50 text-light" style="background-color: #111345;">S'inscrire</button>
+    <button type="submit" class="btn w-sm-50 text-light" style="background-color: #111345;">{% trans "Create" %}</button>
   </form>
 </div>
 

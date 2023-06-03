@@ -1,0 +1,4 @@
+django
+django-admin
+requests
+django-rest-framework==0.1.0

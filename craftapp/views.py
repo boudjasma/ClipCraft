@@ -1,13 +1,14 @@
+import datetime
 from typing import Any, Dict
 from django.shortcuts import redirect, render
 from django.views.generic import *
-from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import authenticate, login
 import requests
 from .forms import SignUpForm
-from .models import Profile
-
+from .models import Profile, Video
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse, JsonResponse
 
 class CustomLoginView(LoginView):
     template_name = 'craftapp/login.html'
@@ -32,27 +33,27 @@ class SignUpView(View):
             user.set_password(password)
             user.save()
 
-            # Création du profil associé à l'utilisateur
             Profile.objects.create(
                 user=user,
                 first_name=form.cleaned_data.get('first_name'),
                 last_name=form.cleaned_data.get('last_name'),
             )
 
-            # Authentification et connexion de l'utilisateur
             user = authenticate(username=user.username, password=password)
             login(request, user)
 
             return redirect('home')
         else:
-            # Afficher les erreurs du formulaire dans la console
             print(form.errors)
 
         return render(request, self.template_name, {'form': form})
     
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'craftapp/home.html'
+    
+    # def get(self, request, format=None):
+    #     return JsonResponse({"message":'HELLO WORLD FROM DJANGO AND DOCKER'})  
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -65,21 +66,33 @@ class HomeView(TemplateView):
             title = request.POST.get('title')
             text = request.POST.get('text')
             photo = str(request.POST.get('photo'))
+
+            title_video = request.user.username+"-"+title.replace(" ","-")+"-"+str(datetime.datetime.now()).replace(" ","-")
           
             data = {
-                'title': title,
+                'title': title_video,
                 'text': text,
                 'photo': photo
             }
             print(data)
 
-            # response = requests.post('http://localhost:5000/generate-video', data=data)
+            response = requests.post('http://127.0.0.1:5000/generate-video', data=data)
 
-            # api_response = response.json()
-            # print(api_response)
+            if response.status_code == 200:
+                url_video = response.json()
+                title_video = title_video
+                video = Video.objects.create(title=title_video, url=url_video)
+                profile = request.user.profile
+                profile.videos.add(video)
+                profile.save()
+                
+                context = {
+                    'title': title_video,
+                    'text': text,
+                    'photo': photo,
+                    'video_path': "url_video"
+                }
 
-            context = {'title': title, 'text': text, 'photo': photo, 'video_path': "" }
-
-            # Renvoyez la réponse à la vue 'result.html'
-            return render(request, 'craftapp/result.html', context)
-        
+                return render(request, 'craftapp/result.html', context)
+            else:
+                return HttpResponse('Error occurred during video generation.', status=response.status_code)

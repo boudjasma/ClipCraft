@@ -12,10 +12,9 @@ class Profile(models.Model):
 
 class Video(models.Model):
     title = models.CharField(max_length=100)
-    video_file = models.FileField(upload_to='medias/videos/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
     evaluation = models.IntegerField(blank=True, null=True)
-    url = models.URLField()
+    url = models.URLField(null=False)
 
     def __str__(self):
         return self.title
