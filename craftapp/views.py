@@ -79,9 +79,10 @@ class HomeView(LoginRequiredMixin, TemplateView):
             response = requests.post('http://127.0.0.1:5000/generate-video', data=data)
 
             if response.status_code == 200:
-                url_video = response.json()
+                data = response.json()
+                url = data["video_url"]
                 title_video = title_video
-                video = Video.objects.create(title=title_video, url=url_video)
+                video = Video.objects.create(title=title_video, url=url)
                 profile = request.user.profile
                 profile.videos.add(video)
                 profile.save()
@@ -90,7 +91,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
                     'title': title_video,
                     'text': text,
                     'photo': photo,
-                    'video_path': "url_video"
+                    'video_path': url,
                 }
 
                 return render(request, 'craftapp/result.html', context)
