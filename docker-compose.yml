@@ -3,10 +3,18 @@ version: "3"
 services:
 
   web:
-    build: ./web/
+    build: .
+    environment:
+      MYENV: EXAMPLE
+    volumes:
+      - .:/code
+  web_migrate:
+    extends:
+      service: web
+    command: python manage.py migrate
+  web_run:
+    extends:
+      service: web
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
-    volumes:
-      - ./web:/code
-      
-    command: python manage.py runserver

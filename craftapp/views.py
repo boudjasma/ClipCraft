@@ -57,7 +57,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["avatars"] = ["{% static 'assets/avatar"+str(i)+".png' %}" for i in range(1, 10)]
+        context["avatars"] = ["{% static 'assets/avatar"+str(i)+".png' %}" for i in range(1, 9)]
         print(context["avatars"] )
         return context
 
