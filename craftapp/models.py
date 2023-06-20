@@ -5,6 +5,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
+    picture = models.ImageField(default="/static/assets/placeholder.jpg", upload_to='media/images/profile_picture/')
+    description = models.CharField(max_length=1000)
     videos = models.ManyToManyField('Video')
 
     def __str__(self):

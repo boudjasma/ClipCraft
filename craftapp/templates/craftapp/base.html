@@ -27,6 +27,13 @@
 
   <!-- JQuery SELECT2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+  <!-- Dropzone CSS -->
+  <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+  <!-- Cropper CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/2.0.0-alpha.1/cropper.min.css">
+
   {% endblock %}
 
   {% block styles %}
@@ -37,25 +44,28 @@
 <body>
   <div class="card-header container-fluid rounded-0" id="header">
     <div class="d-flex justify-content-between">
-      <div class="fs-1" id="title">
-        <img src="{% static 'assets/logo.png' %}" class="rounded" alt="ClipCraftLogo" height="70" width="70" id="logo">
-        {% block header %}
-        {% endblock %}
+      <div class="fs-1 d-flex flex-row  bd-highlight" id="title">
+          <div class="p-2 bd-highlight">
+            <img src="{% static 'assets/logo.png' %}" class="rounded" alt="ClipCraftLogo" height="60" width="60" id="logo">
+          </div>
+          <div class="p-2 bd-highlight d-none d-sm-block">
+            {% block header %}
+            {% endblock %}
+          </div>
       </div>
       <div class="m-4">
         {% block login %}{% endblock %}
       </div>
-
     </div>
 
   </div>
-  <main class="container p-sm-4">
+  <div class="container p-sm-4" id="main">
     <div class="card shadow-lg bg-body rounded">
       <div class="card-sm-body">
         {% block content %}{% endblock %}
       </div>
     </div>
-  </main>
+  </div>
 </body>
 {% block modal %}
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -70,6 +80,25 @@
         {% endblock %}
       </div>
       {% block modal_footer %}
+      {% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block modal_additionnal %}
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header pb-0 mb-0">
+        {% block modal_additionnal_title %}
+        {% endblock %}
+      </div>
+      <div class="modal-body d-flex justify-content-center">
+        {% block modal_additionnal_body %}
+        {% endblock %}
+      </div>
+      {% block modal_additionnal_footer %}
       {% endblock %}
     </div>
   </div>
@@ -110,4 +139,10 @@
 
 <!-- JQuery SELECT2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<!-- Dropzone JS-->
+<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+
+<!-- CROPPER JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/2.0.0-alpha.1/cropper.min.js"></script>
 {% endblock %}

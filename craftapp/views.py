@@ -8,7 +8,8 @@ import requests
 from .forms import SignUpForm
 from .models import Profile, Video
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
+
 
 class CustomLoginView(LoginView):
     template_name = 'craftapp/login.html'
@@ -47,7 +48,27 @@ class SignUpView(View):
             print(form.errors)
 
         return render(request, self.template_name, {'form': form})
-    
+
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'craftapp/profile.html'
+   
+
+    def post(self, request):
+        profile = request.user.profile
+        if request.method == 'POST':
+            if request.POST.get('description') is not None :
+                description = request.POST.get('description')
+                profile.description = description
+                profile.save()
+
+            if request.FILES.get('file') is not None :
+                picture=request.FILES.get('file')
+                profile.picture=picture
+                profile.save()
+
+        return render(request, self.template_name)
+      
 
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'craftapp/home.html'
@@ -76,7 +97,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
             }
             print(data)
 
-            response = requests.post('http://127.0.0.1:5000/generate-video', data=data)
+            response = requests.post('http://35.195.149.150:5000/generate-video', data=data)
 
             if response.status_code == 200:
                 data = response.json()
