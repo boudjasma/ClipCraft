@@ -10,22 +10,30 @@ from .models import Profile, Video, VideoFeedback
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie, csrf_exempt
+from django.utils.decorators import method_decorator
+
+
 
 class CustomLoginView(LoginView):
     template_name = 'craftapp/login.html'
+
 
 class CustomLogoutView(LogoutView):
     template_name = 'craftapp/logout.html'
     next_page = 'login'
 
+
 class SignUpView(View):
     form_class = SignUpForm
     template_name = 'craftapp/signup.html'
-
+    
     def get(self, request):
         form = self.form_class()
         return render(request, self.template_name, {'form': form})
-
+    
+    @csrf_exempt
+    @csrf_protect
     def post(self, request):
         form = self.form_class(request.POST)
         if form.is_valid():
@@ -64,7 +72,8 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
         context['page_obj'] = page_obj
         return context
-
+    
+    @csrf_exempt
     def post(self, request):
         profile = request.user.profile
         if request.method == 'POST':
@@ -93,6 +102,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
         print(context["avatars"] )
         return context
 
+    @csrf_exempt
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
             title = request.POST.get('title')
@@ -107,7 +117,8 @@ class HomeView(LoginRequiredMixin, TemplateView):
                 'photo': photo
             }
             print(data)
-            url_api = "http://192.168.1.64:5000/generate-video"
+            url_api = "https://clipcraftapi-lastversion-bvid2oohxq-ew.a.run.app/generate-video"
+            #"http://192.168.1.64:5000/generate-video"
             # "https://clipcraftapi-quimarche-bvid2oohxq-lz.a.run.app/generate-video"
             # 'http://35.195.149.150:5000/generate-video'
             response = requests.post(url_api, data=data)
@@ -137,13 +148,14 @@ class ResultView(LoginRequiredMixin, TemplateView):
 
 class FeedbackView(LoginRequiredMixin, TemplateView):
     template_name = 'craftapp/feedback.html'
-    
+
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["video"] = self.request.user.profile.videos.latest('uploaded_at')
         context["range"] = range(1, 11)
         return context
     
+    @csrf_exempt
     def post(self, request, *args, **kwargs):
         if request.method == 'POST':
             evaluation = int(request.POST.get('mark'))
