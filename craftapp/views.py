@@ -6,10 +6,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import authenticate, login
 import requests
 from .forms import SignUpForm
-from .models import Profile, Video
+from .models import Profile, Video, VideoFeedback
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-
+from django.core.paginator import Paginator
 
 class CustomLoginView(LoginView):
     template_name = 'craftapp/login.html'
@@ -52,7 +52,18 @@ class SignUpView(View):
 
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'craftapp/profile.html'
-   
+    paginate_by = 3  # Nombre de vidéos par page
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        videos = self.request.user.profile.videos.all()  # Récupère les vidéos du profil de l'utilisateur connecté
+
+        paginator = Paginator(videos, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        context['page_obj'] = page_obj
+        return context
 
     def post(self, request):
         profile = request.user.profile
@@ -78,7 +89,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context["avatars"] = ["{% static 'assets/avatar"+str(i)+".png' %}" for i in range(1, 9)]
+        context["avatars"] = ["{% static 'assets/avatar"+str(i)+".png' %}" for i in range(1, 8)]
         print(context["avatars"] )
         return context
 
@@ -96,14 +107,16 @@ class HomeView(LoginRequiredMixin, TemplateView):
                 'photo': photo
             }
             print(data)
-
-            response = requests.post('http://35.195.149.150:5000/generate-video', data=data)
-
+            url_api = "http://192.168.1.64:5000/generate-video"
+            # "https://clipcraftapi-quimarche-bvid2oohxq-lz.a.run.app/generate-video"
+            # 'http://35.195.149.150:5000/generate-video'
+            response = requests.post(url_api, data=data)
+            print(response)
             if response.status_code == 200:
                 data = response.json()
                 url = data["video_url"]
                 title_video = title_video
-                video = Video.objects.create(title=title_video, url=url)
+                video = Video.objects.create(title=title_video, text=text, avatar="media/static/assets/"+photo+".png", url=url)
                 profile = request.user.profile
                 profile.videos.add(video)
                 profile.save()
@@ -118,3 +131,27 @@ class HomeView(LoginRequiredMixin, TemplateView):
                 return render(request, 'craftapp/result.html', context)
             else:
                 return HttpResponse('Error occurred during video generation.', status=response.status_code)
+
+class ResultView(LoginRequiredMixin, TemplateView):
+    template_name = 'craftapp/result.html'
+
+class FeedbackView(LoginRequiredMixin, TemplateView):
+    template_name = 'craftapp/feedback.html'
+    
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["video"] = self.request.user.profile.videos.latest('uploaded_at')
+        context["range"] = range(1, 11)
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        if request.method == 'POST':
+            evaluation = int(request.POST.get('mark'))
+            last_video = request.user.profile.videos.latest('uploaded_at')
+            last_video.evaluation = evaluation
+            last_video.save()
+            feedback_video= VideoFeedback.objects.create(video=last_video, mark=evaluation)
+            print(feedback_video.video, feedback_video.mark)
+
+        return render(request, 'craftapp/home.html')
+      

@@ -7,3 +7,12 @@
 .dz:hover {
     background-color: aliceblue !important;
 }
+
+#icon-edit-picture {
+    opacity: 0;
+  }
+  
+#icon-edit-picture:hover {
+opacity: 1;
+}
+

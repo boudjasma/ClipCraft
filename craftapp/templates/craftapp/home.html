@@ -12,14 +12,15 @@
 {% block login %}
   {% if user.is_authenticated %}
     <a class="text-light" href="{% url 'profile' %}">    
-      <img src="{{ request.user.profile.picture.url }}" class="rounded-circle float-start img-fluid mx-sm-2" height="50" width="50">
+      <img src="{{ request.user.profile.picture.url }}" class="rounded-circle float-start img-fluid mx-sm-2 border border-light" style="width: 30px; height: 30px; clip-path:ellipse(50% 50%);">
     </a>
     <a class="text-light" href="{% url 'logout' %}">{% trans "Logout" %}</a>
   {% endif %}
 {% endblock %}
 
 {% block content %}
-<div class="fs-2 card-title m-4">{% if user.is_authenticated %} {% trans "Welcome" %}, {{ user.username }} !{% endif %}
+<div class="fs-2 card-title m-4" style="color: #111345;">
+  {% if user.is_authenticated %} {% trans "Welcome" %}, {{ user.username }} !{% endif %}
 </div>
 <div class="p-2">
   <form method="POST" action="{% url 'home' %}">
@@ -36,10 +37,10 @@
         </div>
       </div>
       <div class="col-sm-6">
-        <div class="d-flex justify-content-center">
-          <div class="row team-container w-sm-50 p-3">
-            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-              <div class="carousel-inner">
+        <div class="d-flex justify-content-center bg-secondary bg-gradient">
+          <div class="row team-container w-sm-50">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-touch="false" data-bs-interval="false">
+              <div class="carousel-inner"  style="width: 200px; height: 200px;">
                 {% for avatar in avatars %}
                   {% with counter=forloop.counter|stringformat:"s" %}
                     {% with avatar_path='assets/avatar'|add:counter|add:".png" %}
@@ -47,8 +48,7 @@
                       <input type="radio" name="photo" value="{{ forloop.counter }}" id="photo{{ forloop.counter }}"
                         class="d-none">
                       <label for="photo{{ forloop.counter }}">
-                        <img src="{% static avatar_path %}" class="d-block img-fluid" alt="Photo {{ forloop.counter }}" height="200"
-                          width="200">
+                        <img src="{% static avatar_path %}" class="d-block img-fluid h-100" alt="Photo {{ forloop.counter }}">
                       </label>
                     </div>
                     {% endwith %}
@@ -71,6 +71,7 @@
         </div>
       </div>
     </div>
+
     <div class="row">
       <div class="d-flex justify-content-center">
         <button type="submit" class="btn btn-lg w-sm-50 text-light" style="background-color: #111345;">
